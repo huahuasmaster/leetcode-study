@@ -3,7 +3,7 @@ package com.zyz.study.lock;
 
 import java.util.concurrent.locks.LockSupport;
 
-public class DemoApplication {
+public class PrintInOrder {
 
     Thread t1;
     Thread t2;
@@ -94,7 +94,7 @@ public class DemoApplication {
 
 
     public static void main(String[] args) {
-        DemoApplication demoApplication = new DemoApplication();
+        PrintInOrder demoApplication = new PrintInOrder();
         demoApplication.run();
     }
 

@@ -1,0 +1,8 @@
+spring:
+  main:
+    allow-bean-definition-overriding: true
+  application:
+    name: sagittarius-admin
+  redis:
+    host: 127.0.0.1
+    port: 6379
