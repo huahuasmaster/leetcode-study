@@ -1,5 +1,6 @@
 package com.zyz.study.redis;
 
+import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
@@ -8,7 +9,6 @@ import org.springframework.stereotype.Component;
 import javax.annotation.PreDestroy;
 import java.util.HashMap;
 import java.util.concurrent.*;
-import java.util.concurrent.atomic.AtomicInteger;
 
 /**
  * 基于Redis的分布式锁
@@ -28,7 +28,7 @@ public class RedisDistributedLock {
 
     /**
      * 管理看门狗的线程池
-     * 思考：设为守护线程能解决什么问题？对于当前场景，线程池该如何调优？
+     * 思考：设为守护线程能解决什么问题？对于当前场景(很多工作线程处于睡眠状态），线程池该如何调优？
      */
     ExecutorService exec = Executors.newCachedThreadPool(runnable -> {
         Thread t = Executors.defaultThreadFactory().newThread(runnable);
@@ -47,9 +47,13 @@ public class RedisDistributedLock {
     @Autowired
     private RedisTemplate redisTemplate;
 
+    /**
+     * 记录看门狗线程
+     */
     private final ConcurrentHashMap<String, Future> dogs = new ConcurrentHashMap<>();
 
     /**
+     * 最基本的锁
      * nx - 锁的互斥
      * ex - 防止锁一直存在，造成死锁
      * 缺点：业务超时问题：如果业务线程获取锁后执行了很长时间，此时锁自动释放，其他线程能获取到锁，会有并发问题
@@ -174,18 +178,15 @@ public class RedisDistributedLock {
 }
 
 /**
+ * 看门狗
  * 负责定时重置锁的超时时间
  * 解决了"获取到锁的线程还在运行中，但是锁自动过期，其他线程接着获取到锁"的问题
  */
 @Slf4j
+@AllArgsConstructor
 class WatchDog implements Runnable {
     private String key;
     private RedisTemplate redisTemplate;
-
-    public WatchDog(String key, RedisTemplate redisTemplate) {
-        this.key = key;
-        this.redisTemplate = redisTemplate;
-    }
 
     @Override
     public void run() {
@@ -194,7 +195,7 @@ class WatchDog implements Runnable {
             try {
                 TimeUnit.SECONDS.sleep(10);
             } catch (InterruptedException e) {
-                log.info("dog's job has done key = {}", key);
+                log.info("dog's job has done， key = {}", key);
                 return;
             }
             log.info("reset expire of {}", key);
