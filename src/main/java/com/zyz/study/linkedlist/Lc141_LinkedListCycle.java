@@ -1,7 +1,6 @@
-package com.zyz.study.linkedlist.lc141;
+package com.zyz.study.linkedlist;
 
-import com.sun.xml.internal.ws.runtime.config.TubelineFeatureReader;
-import com.zyz.study.linkedlist.ListNode;
+import com.zyz.study.common.ListNode;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -25,7 +24,7 @@ import java.util.Set;
  * @version 1.0
  * @date 2021/1/17 11:08
  */
-public class LinkedListCycle {
+public class Lc141_LinkedListCycle {
     // 使用一个set存储所有出现过的node，时间复杂度O(nlogn), 空间复杂度o(n)
     public boolean hasCycle(ListNode head) {
         // null or only one node

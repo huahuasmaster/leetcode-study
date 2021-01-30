@@ -1,4 +1,4 @@
-package com.zyz.study.linkedlist;
+package com.zyz.study.common;
 
 /**
  * @author 执零
@@ -9,7 +9,7 @@ public class ListNode {
     public int val;
     public ListNode next;
 
-    ListNode(int x) {
+    public ListNode(int x) {
         val = x;
     }
 }
