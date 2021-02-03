@@ -1,6 +1,6 @@
-package com.zyz.study.linkedlist.lc206;
+package com.zyz.study.linkedlist;
 
-import com.zyz.study.linkedlist.ListNode;
+import com.zyz.study.common.ListNode;
 
 /**
  * 反转一个链表,
@@ -11,7 +11,7 @@ import com.zyz.study.linkedlist.ListNode;
  * @version 1.0
  * @date 2021/1/16 16:46
  */
-public class Solution {
+public class Lc206_ReverseList {
     public ListNode reverseList(ListNode head) {
         if (head == null || head.next == null) {
             return head;
@@ -33,7 +33,7 @@ public class Solution {
     }
 
     /**
-     * 递归
+     * 递归,在执行ln与ln+1节点的倒序时，假设ln+1节点的后面都已经倒序完成
      *
      * @param head
      * @return
