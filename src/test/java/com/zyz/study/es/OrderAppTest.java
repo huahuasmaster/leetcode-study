@@ -30,4 +30,19 @@ class OrderAppTest {
     void deleteOrder() {
         orderApp.deleteOrder();
     }
-}
+
+    @Test
+    void bulkCreateOrder() {
+        orderApp.bulkNewOrder();
+    }
+
+    @Test
+    void searchOrder() {
+        orderApp.searchOrder();
+    }
+
+    @Test
+    void aggrOrder() {
+        orderApp.aggrOrder();
+    }
+    }

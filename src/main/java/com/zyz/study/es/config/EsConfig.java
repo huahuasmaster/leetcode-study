@@ -15,11 +15,17 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class EsConfig {
     @Bean
-    public RestHighLevelClient restHighLevelClient() {
-        return new RestHighLevelClient(
-                RestClient.builder(
-                        new HttpHost("127.0.0.1", 9200, "http")
-                )
+    public RestHighLevelClient restHighLevelClient(RestClientBuilder restClientBuilder) {
+        restClientBuilder.setMaxRetryTimeoutMillis(6000);// 最大重试时长
+
+        RestHighLevelClient restHighLevelClient = new RestHighLevelClient(restClientBuilder.build());
+        return restHighLevelClient;
+    }
+    
+    @Bean
+    public RestClientBuilder restClientBuilder() {
+        return RestClient.builder(
+                new HttpHost("127.0.0.1", 9200, "http")
         );
     }
 }
