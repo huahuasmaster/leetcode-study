@@ -1,41 +1,46 @@
 package com.zyz.study.stack;
 
-import java.awt.*;
-import java.sql.SQLOutput;
-import java.util.Deque;
-import java.util.LinkedList;
+import java.util.Stack;
 
 /**
+ * 专门使用一个存储最小值的栈
  * @author 执零
  * @version 1.0
  * @date 2021/1/20 23:47
  */
 public class Lc155_MinStack {
 
-    Deque<Integer> stack = new LinkedList<>();
-    Deque<Integer> minStack = new LinkedList<>();
+    Stack<Integer> stack = new Stack<>();
+    Stack<Integer> min = new Stack<>();
 
 
-    public Lc155_MinStack() {
-        minStack.push(Integer.MAX_VALUE);
-    }
-
+    /**
+     * 插入数据
+     * @param x
+     */
     public void push(int x) {
         stack.push(x);
-        minStack.push(Math.min(x, minStack.peek()));
+        if (min.isEmpty() || min.peek() >= x) {
+            min.push(x);
+        }
     }
 
+    /**
+     * 弹出一个数据
+     */
     public void pop() {
+        if (stack.peek().equals(min.peek())) {
+            min.pop();
+        }
         stack.pop();
-        minStack.pop();
     }
 
     public int top() {
-        return stack.peek();
+        return 0;
     }
 
     public int getMin() {
-        return minStack.peek();
+        return min.peek();
     }
 
 
